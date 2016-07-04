@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/touch.js"></script>
+<script type="text/javascript" src="js/underscore-min.js"></script>
+<script type="text/javascript" src="js/moment.js"></script>
+<script type="text/javascript" src="js/easeljs-NEXT.combined.js"></script>
+<script type="text/javascript" src="js/lineForm.js"></script>
+</head>
+
+<body>
+<div id="target"></div>
+</body>
+</html>
+<script>
+var line=new lineForm({
+	target:"#target",
+	title:"测试",
+	color:"#ffcd35",
+	w:750,
+	h:300
+	});
+	line.set({
+		data:[{value:10,time:"2016-06-22 13:54"},{value:120,time:"2016-06-21 13:54"},{value:50,time:"2016-06-25 13:54"}],
+		max:180,
+		min:30
+		});
+</script>
