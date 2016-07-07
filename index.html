@@ -16,16 +16,85 @@
 </body>
 </html>
 <script>
-var line=new lineForm({
-	target:"#target",
-	title:"测试",
-	color:"#ffcd35",
-	w:750,
-	h:300
-	});
-	line.set({
+var data={
+	"收缩压":{
+		title:"血压.收缩压",
+		unitName:"mmHg",
+		color:"#ffcd35",
 		data:[{value:10,time:"2016-06-22 13:54"},{value:120,time:"2016-06-21 13:54"},{value:50,time:"2016-06-25 13:54"}],
 		max:180,
 		min:30
+		},
+	"舒张压":{
+		title:"血压.舒张压",
+		unitName:"mmHg",
+		color:"#009df4",
+		data:[{value:10,time:"2016-06-22 13:54"},{value:120,time:"2016-06-21 13:54"},{value:50,time:"2016-06-25 13:54"}],
+		max:180,
+		min:30
+		},
+	"空腹血糖":{
+		title:"血糖.空腹血糖",
+		unitName:"mmol/L",
+		color:"#ffcd35",
+		data:[{value:10,time:"2016-06-22 13:54"},{value:120,time:"2016-06-21 13:54"},{value:50,time:"2016-06-25 13:54"}],
+		max:180,
+		min:30
+		},
+	"静脉血氧":{
+		title:"血氧.静脉血氧",
+		unitName:"%",
+		color:"#009df4",
+		data:[{value:10,time:"2016-06-22 13:54"},{value:120,time:"2016-06-21 13:54"},{value:50,time:"2016-06-25 13:54"}],
+		max:180,
+		min:30
+		}
+	}
+var callback=function(returnData,id){
+		var resultTime=0;
+		var resultObj={};
+		var showObj={};
+		$.each(data[id].data,function(i,n){
+			var space=Number(moment(n.time,"YYYY-MM-DD HH:mm").format("x"));
+			if(space<=returnData){
+				if(!resultTime){
+				resultTime=space;
+				resultObj=n;
+				}else{
+					if(space>resultTime){
+						resultTime=space;
+						resultObj=n;
+						}
+					}
+				}
+			});
+		resultTime=moment(resultTime,"x").format("YYYY-MM-DD HH:mm");
+		$.each(data,function(i,n){
+			$.each(n.data,function(o,p){
+				if(p.time==resultTime){
+					showObj[i]=p;
+					}
+				});
+			});
+		debugger;
+	}
+$.each(data,function(i,n){
+	var line=new lineForm({
+	target:"#target",
+	title:n.title,
+	unitName:n.unitName,
+	color:n.color,
+	w:750,
+	h:300
+	});
+	line.callback=function(returnData){
+		callback(returnData,i);
+		}
+	line.set({
+		data:n.data,
+		max:n.max,
+		min:n.min
 		});
+	});
+
 </script>
